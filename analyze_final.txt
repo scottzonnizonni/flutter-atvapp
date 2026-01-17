@@ -1,0 +1,2 @@
+[info] 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre (D:\Dev\APP\ProjetosFlutter\2\flutter_application_1\lib\screens\content_form_screen.dart:208:15)
+[info] Don't use 'BuildContext's across async gaps (D:\Dev\APP\ProjetosFlutter\2\flutter_application_1\lib\screens\qr_scanner_screen.dart:50:20)
