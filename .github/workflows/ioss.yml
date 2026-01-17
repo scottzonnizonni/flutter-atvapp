@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
   
 env:
-  DIR_MOBILEAPP: './src/appgroffe'
+  DIR_MOBILEAPP: '.'
 
 jobs:
   build-ios:
