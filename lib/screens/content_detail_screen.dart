@@ -58,7 +58,12 @@ class _ContentDetailScreenState extends State<ContentDetailScreen> {
   }
 
   String _formatDate(DateTime date) {
-    return DateFormat('dd/MM/yyyy • HH:mm', 'pt_BR').format(date);
+    try {
+      return DateFormat('dd/MM/yyyy • HH:mm', 'pt_BR').format(date);
+    } catch (e) {
+      // Fallback se o locale não estiver disponível
+      return DateFormat('dd/MM/yyyy • HH:mm').format(date);
+    }
   }
 
   void _shareContent() {
@@ -141,7 +146,10 @@ Terra Vista - Assentamento Sustentável
 
     return Scaffold(
       backgroundColor: const Color(AppConstants.backgroundBlack),
-      body: CustomScrollView(
+      body: Builder(
+        builder: (context) {
+          try {
+            return CustomScrollView(
         slivers: [
           SliverAppBar(
             expandedHeight: _hasImage ? 280 : kToolbarHeight,
@@ -536,7 +544,32 @@ Terra Vista - Assentamento Sustentável
             ),
           ),
         ],
-      ),
+      );
+            } catch (e) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.error_outline,
+                      size: 64,
+                      color: Color(AppConstants.deleteRed),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Erro ao carregar conteúdo: $e',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              );
+            }
+          },
+        ),
     );
   }
 }
@@ -546,14 +579,18 @@ class _MapGridPainter extends CustomPainter {
   _MapGridPainter({required this.color});
   @override
   void paint(Canvas canvas, Size size) {
+    if (size.width <= 0 || size.height <= 0) return;
+    
     final paint = Paint()
       ..color = color.withValues(alpha: 0.1)
       ..strokeWidth = 1
       ..style = PaintingStyle.stroke;
-    for (double i = 0; i < size.width; i += 30)
+    for (double i = 0; i < size.width; i += 30) {
       canvas.drawLine(Offset(i, 0), Offset(i, size.height), paint);
-    for (double i = 0; i < size.height; i += 30)
+    }
+    for (double i = 0; i < size.height; i += 30) {
       canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
   }
 
   @override

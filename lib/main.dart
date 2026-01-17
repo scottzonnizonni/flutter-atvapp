@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'providers/auth_provider.dart';
 import 'providers/content_provider.dart';
 import 'providers/history_provider.dart';
@@ -11,8 +12,11 @@ import 'screens/admin_dashboard_screen.dart';
 import 'widgets/splash_screen.dart';
 import 'utils/constants.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Inicializa o intl para suporte a locales
+  await initializeDateFormatting('pt_BR', null);
 
   // Set status bar to transparent with light icons
   SystemChrome.setSystemUIOverlayStyle(
